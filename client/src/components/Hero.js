@@ -29,7 +29,7 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            Hi, I'm <span className="highlight">Rhys Langdon</span>
+           Rhys Langdon
           </motion.h1>
           
           <motion.p
@@ -40,7 +40,7 @@ const Hero = () => {
           >
             Full Stack Developer & UI/UX Enthusiast
           </motion.p>
-          
+          <img src="/images/headshot.jpg" alt="headshot" className='headshot' />
           <motion.p
             className="hero-description"
             initial={{ opacity: 0, y: 30 }}
@@ -50,6 +50,10 @@ const Hero = () => {
             I create beautiful, responsive web applications using modern technologies
             like React, Node.js, and MongoDB. Let's build something amazing together!
           </motion.p>
+
+          
+
+         
           
           <motion.div
             className="hero-buttons"

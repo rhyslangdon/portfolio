@@ -34,7 +34,7 @@ const Navbar = () => {
       <div className="container">
         <div className="nav-content">
           <Link to="/" className="nav-logo">
-            <h3>Rhys Langdon</h3>
+            <h3>Rhys Langdon - Web Portfolio</h3>
           </Link>
           
           <div className={`nav-links ${isMobileMenuOpen ? 'mobile-open' : ''}`}>

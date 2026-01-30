@@ -22,9 +22,12 @@
 }
 
 .nav-logo h3 {
-  color: #667eea;
+  color: #ffffff;
   font-size: 1.5rem;
   font-weight: 700;
+}
+.nav-logo {
+  text-decoration: none;
 }
 
 .nav-links {

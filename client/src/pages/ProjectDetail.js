@@ -13,35 +13,35 @@ const ProjectDetail = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
+    const fetchProject = async () => {
+      try {
+        setLoading(true);
+        const data = await projectsAPI.getById(id);
+        setProject(data);
+      } catch (err) {
+        console.error('Error fetching project:', err);
+        setError('Project not found');
+        // Use sample project if API fails
+        setProject({
+          _id: id,
+          title: 'Sample Project',
+          description: 'This is a sample project description',
+          longDescription: 'This is a detailed description of the project. It includes information about the challenges faced, solutions implemented, and technologies used. The project demonstrates various skills including frontend development, backend integration, database design, and user experience optimization.',
+          technologies: ['React', 'Node.js', 'MongoDB', 'Express'],
+          image: 'https://via.placeholder.com/800x400',
+          githubUrl: 'https://github.com',
+          liveUrl: 'https://example.com',
+          category: 'web',
+          status: 'completed',
+          createdAt: new Date().toISOString()
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchProject();
   }, [id]);
-
-  const fetchProject = async () => {
-    try {
-      setLoading(true);
-      const data = await projectsAPI.getById(id);
-      setProject(data);
-    } catch (err) {
-      console.error('Error fetching project:', err);
-      setError('Project not found');
-      // Use sample project if API fails
-      setProject({
-        _id: id,
-        title: 'Sample Project',
-        description: 'This is a sample project description',
-        longDescription: 'This is a detailed description of the project. It includes information about the challenges faced, solutions implemented, and technologies used. The project demonstrates various skills including frontend development, backend integration, database design, and user experience optimization.',
-        technologies: ['React', 'Node.js', 'MongoDB', 'Express'],
-        image: 'https://via.placeholder.com/800x400',
-        githubUrl: 'https://github.com',
-        liveUrl: 'https://example.com',
-        category: 'web',
-        status: 'completed',
-        createdAt: new Date().toISOString()
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handleGoBack = () => {
     navigate('/');

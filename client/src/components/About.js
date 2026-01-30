@@ -12,10 +12,10 @@ const About = () => {
 
   const skills = [
     { name: 'Frontend Development', icon: FaReact, description: 'React, Vue.js, HTML5, CSS3, JavaScript' },
-    { name: 'Backend Development', icon: FaNodeJs, description: 'Node.js, Express.js, Python, RESTful APIs' },
+    { name: 'Backend Development', icon: FaNodeJs, description: 'Node.js, Express.js, RESTful APIs' },
     { name: 'Database Management', icon: FaDatabase, description: 'MongoDB, PostgreSQL, MySQL' },
-    { name: 'Programming Languages', icon: FaCode, description: 'JavaScript, Python, TypeScript, Java' },
-    { name: 'UI/UX Design', icon: FaPalette, description: 'Figma, Adobe XD, Responsive Design' },
+    { name: 'Programming Languages', icon: FaCode, description: 'JavaScript, Java, C#, HTML, CSS' },
+    { name: 'UI/UX Design', icon: FaPalette, description: 'Figma, Adobe Suite, Responsive Design' },
     { name: 'Mobile Development', icon: FaMobile, description: 'React Native, Flutter' }
   ];
 
