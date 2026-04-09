@@ -1,92 +1,76 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { FaGithub, FaExternalLinkAlt, FaFilter } from 'react-icons/fa';
-import { projectsAPI } from '../services/api';
+import { FaGithub, FaExternalLinkAlt, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import './Projects.css';
+
+const slideVariants = {
+  enter: (direction) => ({
+    x: direction > 0 ? 140 : -140,
+    opacity: 0
+  }),
+  center: {
+    x: 0,
+    opacity: 1
+  },
+  exit: (direction) => ({
+    x: direction > 0 ? -140 : 140,
+    opacity: 0
+  })
+};
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
-  const [filteredProjects, setFilteredProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [activeFilter, setActiveFilter] = useState('all');
-  
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [direction, setDirection] = useState(1);
+
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1
   });
 
-  const filters = [
-    { id: 'all', label: 'All Projects' },
-    { id: 'web', label: 'Web Apps' },
-    { id: 'mobile', label: 'Mobile Apps' },
-    { id: 'desktop', label: 'Desktop Apps' }
-  ];
-
   useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(process.env.PUBLIC_URL + '/projects/projects.json');
+        if (!response.ok) throw new Error('Network response was not ok');
+        const data = await response.json();
+        setProjects(data);
+      } catch (err) {
+        console.error('Error fetching projects:', err);
+        setError('Failed to load projects.');
+        setProjects([]);
+      } finally {
+        setLoading(false);
+      }
+    };
     fetchProjects();
   }, []);
 
-  const fetchProjects = async () => {
-    try {
-      setLoading(true);
-      const data = await projectsAPI.getAll();
-      setProjects(data);
-      setFilteredProjects(data);
-    } catch (err) {
-      console.error('Error fetching projects:', err);
-      setError('Failed to load projects. Using sample data.');
-      // Use sample data if API fails
-      const sampleProjects = [
-        {
-          _id: '1',
-          title: 'E-Commerce Platform',
-          description: 'Full-stack MERN application with payment integration',
-          technologies: ['React', 'Node.js', 'MongoDB', 'Stripe'],
-          image: 'https://via.placeholder.com/400x250',
-          githubUrl: 'https://github.com',
-          liveUrl: 'https://example.com',
-          category: 'web',
-          featured: true
-        },
-        {
-          _id: '2',
-          title: 'Task Management App',
-          description: 'React Native mobile app for productivity',
-          technologies: ['React Native', 'Firebase', 'Redux'],
-          image: 'https://via.placeholder.com/400x250',
-          githubUrl: 'https://github.com/rhyslangdon',
-          category: 'mobile',
-          featured: false
-        },
-        {
-          _id: '3',
-          title: 'Weather Dashboard',
-          description: 'Real-time weather app with interactive maps',
-          technologies: ['React', 'TypeScript', 'Chart.js', 'OpenWeather API'],
-          image: 'https://via.placeholder.com/400x250',
-          githubUrl: 'https://github.com/rhyslangdon',
-          liveUrl: 'https://rhyslangdon-projects.vercel.app',
-          category: 'web',
-          featured: true
-        }
-      ];
-      setProjects(sampleProjects);
-      setFilteredProjects(sampleProjects);
-    } finally {
-      setLoading(false);
+  useEffect(() => {
+    if (projects.length > 0 && currentIndex >= projects.length) {
+      setCurrentIndex(0);
     }
+  }, [projects, currentIndex]);
+
+  const goToPrevious = () => {
+    setDirection(-1);
+    setCurrentIndex((i) => (i === 0 ? projects.length - 1 : i - 1));
   };
 
-  const handleFilterChange = (filterId) => {
-    setActiveFilter(filterId);
-    if (filterId === 'all') {
-      setFilteredProjects(projects);
-    } else {
-      setFilteredProjects(projects.filter(project => project.category === filterId));
-    }
+  const goToNext = () => {
+    setDirection(1);
+    setCurrentIndex((i) => (i === projects.length - 1 ? 0 : i + 1));
+  };
+
+  const goToIndex = (index) => {
+    if (index === currentIndex) return;
+    setDirection(index > currentIndex ? 1 : -1);
+    setCurrentIndex(index);
   };
 
   if (loading) {
@@ -117,86 +101,106 @@ const Projects = () => {
             </div>
           )}
           
-          <div className="filter-container">
-            <FaFilter className="filter-icon" />
-            <div className="filter-buttons">
-              {filters.map(filter => (
-                <button
-                  key={filter.id}
-                  className={`filter-btn ${activeFilter === filter.id ? 'active' : ''}`}
-                  onClick={() => handleFilterChange(filter.id)}
+          {projects.length > 0 && (
+            <div className="projects-carousel">
+              <AnimatePresence initial={false} custom={direction} mode="wait">
+                <motion.div
+                  key={projects[currentIndex]._id}
+                  className="project-card"
+                  custom={direction}
+                  variants={slideVariants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  transition={{ duration: 0.25, ease: 'easeOut' }}
                 >
-                  {filter.label}
-                </button>
-              ))}
-            </div>
-          </div>
-          
-          <div className="projects-grid">
-            {filteredProjects.map((project, index) => (
-              <motion.div
-                key={project._id}
-                className="project-card"
-                initial={{ opacity: 0, y: 30 }}
-                animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-              >
-                <div className="project-image-container">
-                  <img 
-                    src={project.image} 
-                    alt={project.title}
-                    className="project-image"
-                  />
-                  <div className="project-overlay">
-                    <div className="project-links">
-                      <a 
-                        href={project.githubUrl} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="project-link"
-                      >
-                        <FaGithub />
-                      </a>
-                      {project.liveUrl && (
-                        <a 
-                          href={project.liveUrl} 
-                          target="_blank" 
+                  <div className="project-image-container">
+                    <img
+                      src={projects[currentIndex].image}
+                      alt={projects[currentIndex].title}
+                      className="project-image"
+                    />
+                    <div className="project-overlay">
+                      {/* <div className="project-links">
+                        <a
+                          href={projects[currentIndex].githubUrl}
+                          target="_blank"
                           rel="noopener noreferrer"
                           className="project-link"
                         >
-                          <FaExternalLinkAlt />
+                          <FaGithub />
                         </a>
-                      )}
+                        {projects[currentIndex].liveUrl && (
+                          <a
+                            href={projects[currentIndex].liveUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="project-link"
+                          >
+                            <FaExternalLinkAlt />
+                          </a>
+                        )}
+                      </div> */}
                     </div>
                   </div>
-                </div>
-                
-                <div className="project-content">
-                  <h3 className="project-title">{project.title}</h3>
-                  <p className="project-description">{project.description}</p>
-                  
-                  <div className="project-technologies">
-                    {project.technologies.map((tech, techIndex) => (
-                      <span key={techIndex} className="tech-tag">
-                        {tech}
-                      </span>
-                    ))}
+
+                  <div className="project-content">
+                    <h3 className="project-title">{projects[currentIndex].title}</h3>
+                    <p className="project-description">{projects[currentIndex].description}</p>
+
+                    <div className="project-technologies">
+                      {projects[currentIndex].technologies.map((tech, techIndex) => (
+                        <span key={techIndex} className="tech-tag">
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+
+                    <Link
+                      to={`/project/${projects[currentIndex]._id}`}
+                      className="btn btn-secondary project-btn"
+                    >
+                      View Details
+                    </Link>
                   </div>
-                  
-                  <Link 
-                    to={`/project/${project._id}`} 
-                    className="btn btn-secondary project-btn"
-                  >
-                    View Details
-                  </Link>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-          
-          {filteredProjects.length === 0 && (
+                </motion.div>
+              </AnimatePresence>
+
+              <button
+                type="button"
+                className="carousel-control carousel-control-left"
+                onClick={goToPrevious}
+                aria-label="Previous project"
+              >
+                <FaChevronLeft />
+              </button>
+
+              <button
+                type="button"
+                className="carousel-control carousel-control-right"
+                onClick={goToNext}
+                aria-label="Next project"
+              >
+                <FaChevronRight />
+              </button>
+
+              <div className="carousel-indicators">
+                {projects.map((project, index) => (
+                  <button
+                    key={project._id}
+                    type="button"
+                    className={`carousel-dot ${index === currentIndex ? 'active' : ''}`}
+                    onClick={() => goToIndex(index)}
+                    aria-label={`Go to ${project.title}`}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+
+          {projects.length === 0 && (
             <div className="no-projects">
-              <p>No projects found for the selected filter.</p>
+              <p>No projects found.</p>
             </div>
           )}
         </motion.div>

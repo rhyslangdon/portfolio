@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FaGithub, FaExternalLinkAlt, FaArrowLeft, FaCalendarAlt, FaCode, FaEye } from 'react-icons/fa';
-import { projectsAPI } from '../services/api';
+import { FaGithub, FaExternalLinkAlt, FaArrowLeft } from 'react-icons/fa';
 import './ProjectDetail.css';
 
 const ProjectDetail = () => {
@@ -16,25 +15,23 @@ const ProjectDetail = () => {
     const fetchProject = async () => {
       try {
         setLoading(true);
-        const data = await projectsAPI.getById(id);
-        setProject(data);
+        const response = await fetch(process.env.PUBLIC_URL + '/projects/projects.json');
+        if (!response.ok) throw new Error('Network response was not ok');
+
+        const projects = await response.json();
+        const selectedProject = projects.find((item) => String(item._id) === String(id));
+
+        if (!selectedProject) {
+          setError('Project not found');
+          setProject(null);
+          return;
+        }
+
+        setProject(selectedProject);
       } catch (err) {
         console.error('Error fetching project:', err);
         setError('Project not found');
-        // Use sample project if API fails
-        setProject({
-          _id: id,
-          title: 'Sample Project',
-          description: 'This is a sample project description',
-          longDescription: 'This is a detailed description of the project. It includes information about the challenges faced, solutions implemented, and technologies used. The project demonstrates various skills including frontend development, backend integration, database design, and user experience optimization.',
-          technologies: ['React', 'Node.js', 'MongoDB', 'Express'],
-          image: 'https://via.placeholder.com/800x400',
-          githubUrl: 'https://github.com',
-          liveUrl: 'https://example.com',
-          category: 'web',
-          status: 'completed',
-          createdAt: new Date().toISOString()
-        });
+        setProject(null);
       } finally {
         setLoading(false);
       }
@@ -99,14 +96,14 @@ const ProjectDetail = () => {
               {project.title}
             </motion.h1>
             
-            <motion.p
+            {/* <motion.p
               className="project-subtitle"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
             >
               {project.description}
-            </motion.p>
+            </motion.p> */}
           </div>
         </div>
 
@@ -118,26 +115,6 @@ const ProjectDetail = () => {
           transition={{ duration: 0.6, delay: 0.4 }}
         >
           <img src={project.image} alt={project.title} className="project-main-image" />
-          <div className="project-overlay-actions">
-            <a 
-              href={project.githubUrl} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="action-link github"
-            >
-              <FaGithub /> <span>View Code</span>
-            </a>
-            {project.liveUrl && (
-              <a 
-                href={project.liveUrl} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="action-link live"
-              >
-                <FaExternalLinkAlt /> <span>Live Demo</span>
-              </a>
-            )}
-          </div>
         </motion.div>
 
         {/* Project Details */}
@@ -150,14 +127,14 @@ const ProjectDetail = () => {
             transition={{ duration: 0.6, delay: 0.5 }}
           >
             <section className="project-section">
-              <h3><FaEye /> Project Overview</h3>
+              <h3>Project Overview</h3>
               <p className="project-long-description">
                 {project.longDescription || project.description}
               </p>
             </section>
 
             <section className="project-section">
-              <h3><FaCode /> Technologies Used</h3>
+              <h3>Technologies Used</h3>
               <div className="tech-list">
                 {project.technologies.map((tech, index) => (
                   <span key={index} className="tech-tag-detail">
@@ -175,40 +152,6 @@ const ProjectDetail = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
           >
-            <div className="project-info-card">
-              <h4>Project Info</h4>
-              
-              <div className="info-item">
-                <FaCalendarAlt className="info-icon" />
-                <div>
-                  <span className="info-label">Date</span>
-                  <span className="info-value">
-                    {new Date(project.createdAt).toLocaleDateString()}
-                  </span>
-                </div>
-              </div>
-              
-              <div className="info-item">
-                <FaCode className="info-icon" />
-                <div>
-                  <span className="info-label">Category</span>
-                  <span className="info-value">
-                    {project.category?.charAt(0).toUpperCase() + project.category?.slice(1)}
-                  </span>
-                </div>
-              </div>
-              
-              <div className="info-item">
-                <FaEye className="info-icon" />
-                <div>
-                  <span className="info-label">Status</span>
-                  <span className={`status-badge ${project.status}`}>
-                    {project.status?.charAt(0).toUpperCase() + project.status?.slice(1)}
-                  </span>
-                </div>
-              </div>
-            </div>
-
             <div className="project-actions">
               <a 
                 href={project.githubUrl} 

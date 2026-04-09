@@ -5,13 +5,13 @@
   right: 0;
   z-index: 1000;
   padding: 1rem 0;
-  background: rgba(10, 10, 10, 0.9);
+  background: rgba(31, 27, 23, 0.93);
   backdrop-filter: blur(10px);
   transition: all 0.3s ease;
 }
 
 .navbar.scrolled {
-  background: rgba(10, 10, 10, 0.95);
+  background: rgba(31, 27, 23, 0.98);
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
 }
 
@@ -55,7 +55,7 @@
   left: 0;
   width: 0;
   height: 2px;
-  background: linear-gradient(45deg, #667eea, #764ba2);
+  background: #b49a7a;
   transition: width 0.3s ease;
 }
 
@@ -64,7 +64,7 @@
 }
 
 .nav-link:hover {
-  color: #667eea;
+  color: #d8c3a7;
 }
 
 .mobile-menu-toggle {

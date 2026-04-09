@@ -41,11 +41,11 @@ const Navbar = () => {
             <button onClick={() => scrollToSection('home')} className="nav-link">
               Home
             </button>
+             <button onClick={() => scrollToSection('projects')} className="nav-link">
+              Projects
+            </button>
             <button onClick={() => scrollToSection('about')} className="nav-link">
               About
-            </button>
-            <button onClick={() => scrollToSection('projects')} className="nav-link">
-              Projects
             </button>
             <button onClick={() => scrollToSection('contact')} className="nav-link">
               Contact

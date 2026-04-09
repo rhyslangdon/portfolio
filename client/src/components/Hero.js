@@ -38,16 +38,16 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            Full Stack Developer & UI/UX Enthusiast
+            Full Stack Web Developer
           </motion.p>
-          <img src="/images/headshot.jpg" alt="headshot" className='headshot' />
+          <img src="/images/_headshot.jpg" alt="headshot" className='headshot' />
           <motion.p
             className="hero-description"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
           >
-            I create beautiful, responsive web applications using modern technologies
+            I create responsive web applications using modern technologies
             like React, Node.js, and MongoDB. Let's build something amazing together!
           </motion.p>
 
@@ -84,16 +84,22 @@ const Hero = () => {
             <a href="https://github.com/rhyslangdon/portfolio" target="_blank" rel="noopener noreferrer" className="social-link">
               <FaGithub />
             </a>
-            <a href="https://linkedin.com/in/rhyslangdon" target="_blank" rel="noopener noreferrer" className="social-link">
+            <a href="https://www.linkedin.com/in/rhys-langdon-7a591519b/" target="_blank" rel="noopener noreferrer" className="social-link">
               <FaLinkedin />
             </a>
             <a href="mailto:rhyslangdon@hotmail.com" className="social-link">
               <FaEnvelope />
             </a>
-            <a href="/resume.pdf" download className="social-link">
-              <FaDownload />
-            </a>
+
+            <div className="resume-download">
+              <span>Download my resume</span>
+              <a href="/Rhys_Langdon_Resume_2026.pdf" download className="social-link" aria-label="Download resume">
+                <FaDownload />
+              </a>
+            </div>
+
           </motion.div>
+             
         </motion.div>
       </div>
     </section>

@@ -1,6 +1,13 @@
 .contact {
-  background: #0f0f0f;
-  color: #ffffff;
+  /* margin-top:none; */
+  background: #231e19;
+  color: #f1e7d8;
+}
+
+.contact .section-title {
+  background: none;
+  -webkit-text-fill-color: #f2f4f8;
+  color: #f2f4f8;
 }
 
 .contact-subtitle {
@@ -63,7 +70,7 @@
   justify-content: center;
   width: 50px;
   height: 50px;
-  background: linear-gradient(45deg, #667eea, #764ba2);
+  background: #8f9ba1;
   border-radius: 50%;
   color: #ffffff;
   font-size: 1.2rem;
@@ -84,7 +91,7 @@
 }
 
 .contact-details a:hover {
-  color: #667eea;
+  color: #d8c3a7;
 }
 
 .contact-form {
@@ -130,8 +137,8 @@
 .form-group input:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-color: #b49a7a;
+  box-shadow: 0 0 0 3px rgba(180, 154, 122, 0.18);
   background: rgba(255, 255, 255, 0.08);
 }
 
@@ -167,9 +174,18 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
+  background: #b49a7a;
+  color: #ffffff;
+  border: 1px solid #b49a7a;
   font-size: 1.1rem;
   font-weight: 600;
   transition: all 0.3s ease;
+}
+
+.submit-btn:hover:not(:disabled) {
+  background: #9b8468;
+  border-color: #9b8468;
+  box-shadow: none;
 }
 
 .submit-btn:disabled {

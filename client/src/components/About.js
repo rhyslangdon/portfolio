@@ -33,16 +33,16 @@ const About = () => {
           <div className="about-content">
             <div className="about-text">
               <p>
-                I'm a passionate full-stack developer with over 3 years of experience 
+                I'm a passionate full-stack developer with real world experience 
                 creating digital solutions that make a difference. I specialize in 
                 building scalable web applications using modern technologies.
               </p>
               <p>
-                When I'm not coding, you can find me exploring new technologies, 
-                contributing to open-source projects, or sharing knowledge with the 
-                developer community.
+                Before diving into development, I spent several years working as a professional photographer, which has given me a unique perspective on design and user experience. 
+                I bring that creative eye to my coding projects, ensuring that every application I build is not only functional but also visually appealing.
+
               </p>
-              <div className="about-stats">
+              {/* <div className="about-stats">
                 <div className="stat">
                   <h3>50+</h3>
                   <p>Projects Completed</p>
@@ -55,7 +55,8 @@ const About = () => {
                   <h3>100%</h3>
                   <p>Client Satisfaction</p>
                 </div>
-              </div>
+              </div> */}
+              <br />
             </div>
           </div>
           
@@ -82,6 +83,7 @@ const About = () => {
         </motion.div>
       </div>
     </section>
+
   );
 };
 
