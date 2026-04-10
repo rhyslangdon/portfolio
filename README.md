@@ -1,12 +1,12 @@
-# Portfolio MERN Stack
+# Portfolio Site
 
-A full-stack portfolio website built with MongoDB, Express.js, React, and Node.js.
+A static portfolio site built with React, with an optional lightweight Express server for hosting the production build.
 
 ## 🚀 Features
 
 - **Responsive Design**: Beautiful, mobile-first design that works on all devices
-- **Dynamic Projects**: Manage projects through a RESTful API with MongoDB
-- **Contact Form**: Functional contact form with email integration
+- **Static Projects**: Project data is loaded from a JSON file in the frontend
+- **Static Contact Flow**: The contact form uses EmailJS when configured, or falls back to opening the visitor's email app
 - **Modern UI**: Built with React, Framer Motion animations, and CSS Grid/Flexbox
 - **Performance Optimized**: Fast loading with optimized images and code splitting
 
@@ -17,17 +17,13 @@ A full-stack portfolio website built with MongoDB, Express.js, React, and Node.j
 - **React Router** - Client-side routing
 - **Framer Motion** - Smooth animations and transitions
 - **React Icons** - Beautiful icon library
-- **Axios** - HTTP client for API calls
+- **EmailJS** - Optional client-side email delivery
 - **CSS3** - Modern styling with Grid and Flexbox
 
 ### Backend
 - **Node.js** - JavaScript runtime
 - **Express.js** - Web framework
-- **MongoDB** - NoSQL database
-- **Mongoose** - MongoDB object modeling
-- **Nodemailer** - Email sending functionality
 - **Helmet** - Security headers
-- **CORS** - Cross-origin resource sharing
 
 ## 📁 Project Structure
 
@@ -35,15 +31,12 @@ A full-stack portfolio website built with MongoDB, Express.js, React, and Node.j
 portfolio-mern-stack/
 ├── client/                 # React frontend
 │   ├── public/            # Static files
+│   │   ├── projects/      # Project data JSON and images
 │   ├── src/
 │   │   ├── components/    # React components
 │   │   ├── pages/         # Page components
-│   │   ├── services/      # API services
 │   │   └── ...
-├── server/                # Node.js backend
-│   ├── models/           # MongoDB models
-│   ├── routes/           # Express routes
-│   ├── middleware/       # Custom middleware
+├── server/                # Optional Express static host
 │   └── ...
 └── package.json          # Root package.json
 ```
@@ -52,7 +45,6 @@ portfolio-mern-stack/
 
 ### Prerequisites
 - Node.js (v16 or higher)
-- MongoDB (local installation or MongoDB Atlas)
 - Git
 
 ### Installation
@@ -88,15 +80,14 @@ cp server/.env.example server/.env
 Edit `server/.env`:
 ```env
 PORT=5000
-MONGODB_URI=mongodb://127.0.0.1:27017/portfolio
 NODE_ENV=development
+```
 
-# Email Configuration (optional)
-EMAIL_SERVICE=gmail
-EMAIL_USER=your-email@gmail.com
-EMAIL_PASS=your-app-password
-
-CLIENT_URL=http://localhost:3000
+Optional frontend EmailJS variables in `client/.env`:
+```env
+REACT_APP_EMAILJS_SERVICE_ID=your_service_id
+REACT_APP_EMAILJS_TEMPLATE_ID=your_template_id
+REACT_APP_EMAILJS_PUBLIC_KEY=your_public_key
 ```
 
 ### Running the Application
@@ -120,19 +111,6 @@ npm run client
 npm run build
 ```
 
-## 📝 API Endpoints
-
-### Projects
-- `GET /api/projects` - Get all projects
-- `GET /api/projects/:id` - Get single project
-- `POST /api/projects` - Create new project
-- `PUT /api/projects/:id` - Update project
-- `DELETE /api/projects/:id` - Delete project
-
-### Contact
-- `POST /api/contact` - Send contact message
-- `GET /api/contact` - Get all messages (admin)
-
 ### Health
 - `GET /api/health` - Health check
 
@@ -145,7 +123,7 @@ npm run build
 4. Replace social media links throughout the app
 
 ### Adding Projects
-You can add projects directly to MongoDB or use the API endpoints. Sample project structure:
+Edit `client/public/projects/projects.json`. Sample project structure:
 ```json
 {
   "title": "Project Name",
@@ -170,15 +148,14 @@ You can add projects directly to MongoDB or use the API endpoints. Sample projec
 ### Frontend (Vercel/Netlify)
 1. Build the client: `cd client && npm run build`
 2. Deploy the `build` folder to your hosting service
-3. Update API base URL in `client/src/services/api.js`
 
-### Backend (Heroku/Railway)
-1. Set environment variables on your hosting platform
-2. Ensure MongoDB connection string is set
-3. Deploy the `server` directory
+### Node Hosting (Render/Railway/Heroku)
+1. Build the client during deploy
+2. Start the app with `node server/server.js`
+3. No database configuration is required
 
 ### Render
-Set `MONGODB_URI` in Render to a real MongoDB connection string, such as a MongoDB Atlas URI. The server only falls back to a local MongoDB instance outside production, so leaving `MONGODB_URI` unset on Render will fail startup by design.
+MongoDB is no longer required. Render only needs the normal Node build and start commands.
 
 ### Full Stack (Heroku)
 The root `package.json` includes scripts for Heroku deployment:
@@ -187,22 +164,12 @@ The root `package.json` includes scripts for Heroku deployment:
 
 ## 🔧 Development Tips
 
-### Database Setup
-If using MongoDB locally:
-```bash
-# Start MongoDB
-mongod
-
-# Connect to database
-mongo
-use portfolio
-```
-
 ### Email Setup
-For contact form functionality:
-1. Enable 2-factor authentication in Gmail
-2. Generate an app password
-3. Use the app password in `EMAIL_PASS`
+For the contact form on a static deployment:
+1. Create an EmailJS account
+2. Configure a service and template
+3. Set the `REACT_APP_EMAILJS_*` variables in the frontend environment
+4. If EmailJS is not configured, the form falls back to opening the visitor's email app
 
 ## 🤝 Contributing
 
@@ -226,9 +193,8 @@ If you need help with setup or customization:
 
 - React team for the amazing library
 - Framer Motion for smooth animations
-- MongoDB for the flexible database
 - All open-source contributors
 
 ---
 
-**Built with ❤️ and MERN Stack**
+**Built with React and Express**
