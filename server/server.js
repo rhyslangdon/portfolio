@@ -46,15 +46,20 @@ app.get('/api/health', (req, res) => {
   res.json({ message: 'Server is running', status: 'OK' });
 });
 
-// Error handling middleware
+
+// Serve React static files
+const path = require('path');
+app.use(express.static(path.join(__dirname, '../client/build')));
+
+// Catch-all: send React index.html for any route not handled above
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+});
+
+// Error handling middleware (should be last)
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ message: 'Something went wrong!' });
-});
-
-// 404 handler (catch-all for all HTTP methods and paths, compatible with latest Express)
-app.all(/.*/, (req, res) => {
-  res.status(404).json({ message: 'Route not found' });
 });
 
 const PORT = process.env.PORT || 8000;
