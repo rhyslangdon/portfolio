@@ -88,7 +88,7 @@ cp server/.env.example server/.env
 Edit `server/.env`:
 ```env
 PORT=5000
-MONGODB_URI=mongodb://localhost:27017/portfolio
+MONGODB_URI=mongodb://127.0.0.1:27017/portfolio
 NODE_ENV=development
 
 # Email Configuration (optional)
@@ -176,6 +176,9 @@ You can add projects directly to MongoDB or use the API endpoints. Sample projec
 1. Set environment variables on your hosting platform
 2. Ensure MongoDB connection string is set
 3. Deploy the `server` directory
+
+### Render
+Set `MONGODB_URI` in Render to a real MongoDB connection string, such as a MongoDB Atlas URI. The server only falls back to a local MongoDB instance outside production, so leaving `MONGODB_URI` unset on Render will fail startup by design.
 
 ### Full Stack (Heroku)
 The root `package.json` includes scripts for Heroku deployment:

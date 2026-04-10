@@ -1,9 +1,29 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import emailjs from '@emailjs/browser';
 import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaPaperPlane } from 'react-icons/fa';
-import { contactAPI } from '../services/api';
 import './Contact.css';
+
+const EMAILJS_SERVICE_ID = process.env.REACT_APP_EMAILJS_SERVICE_ID;
+const EMAILJS_TEMPLATE_ID = process.env.REACT_APP_EMAILJS_TEMPLATE_ID;
+const EMAILJS_PUBLIC_KEY = process.env.REACT_APP_EMAILJS_PUBLIC_KEY;
+
+const canUseEmailJS = Boolean(
+  EMAILJS_SERVICE_ID && EMAILJS_TEMPLATE_ID && EMAILJS_PUBLIC_KEY
+);
+
+const buildMailtoLink = ({ name, email, subject, message }) => {
+  const mailSubject = subject || 'Portfolio inquiry';
+  const body = [
+    `Name: ${name}`,
+    `Email: ${email}`,
+    '',
+    message
+  ].join('\n');
+
+  return `mailto:rhyslangdon@hotmail.com?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(body)}`;
+};
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -33,17 +53,39 @@ const Contact = () => {
     setSubmitStatus({ type: '', message: '' });
 
     try {
-      await contactAPI.send(formData);
-      setSubmitStatus({
-        type: 'success',
-        message: 'Message sent successfully! I\'ll get back to you soon.'
-      });
+      if (canUseEmailJS) {
+        await emailjs.send(
+          EMAILJS_SERVICE_ID,
+          EMAILJS_TEMPLATE_ID,
+          {
+            from_name: formData.name,
+            from_email: formData.email,
+            subject: formData.subject,
+            message: formData.message
+          },
+          EMAILJS_PUBLIC_KEY
+        );
+
+        setSubmitStatus({
+          type: 'success',
+          message: 'Message sent successfully. I\'ll get back to you soon.'
+        });
+      } else {
+        window.location.href = buildMailtoLink(formData);
+        setSubmitStatus({
+          type: 'success',
+          message: 'Your email app has been opened with a pre-filled message.'
+        });
+      }
+
       setFormData({ name: '', email: '', subject: '', message: '' });
     } catch (error) {
       console.error('Contact form error:', error);
       setSubmitStatus({
         type: 'error',
-        message: 'Failed to send message. Please try again or contact me directly.'
+        message: canUseEmailJS
+          ? 'Failed to send message. Please try again or email me directly.'
+          : 'Unable to open your email app. Please email me directly at rhyslangdon@hotmail.com.'
       });
     } finally {
       setIsSubmitting(false);
@@ -84,6 +126,11 @@ const Contact = () => {
           <p className="contact-subtitle">
             Have a project in mind or just want to chat? I'd love to hear from you!
           </p>
+          {!canUseEmailJS && (
+            <p className="contact-subtitle">
+              This form opens your email app with a pre-filled message.
+            </p>
+          )}
           
           <div className="contact-content">
             <div className="contact-info">
