@@ -1,0 +1,35 @@
+[
+ 
+  {
+    "_id": "1",
+    "title": "Fresh Potatoes",
+    "description": "My take on 'Rotten Tomatoes' using a C# backend, React/Typescript frontend, and a full MVC app for admin use",
+    "technologies": ["React", "TypeScript", "C#", ".Net"],
+    "image": "/projects/images/freshPotatoes.png",
+    "githubUrl": "https://github.com/rhyslangdon",
+    "category": "web",
+    "featured": false
+  },
+   {
+    "_id": "2",
+    "title": "HRM Skate Spots",
+    "description": "Web application for skateboarders to find and share skate spots around HRM",
+    "technologies": ["React", "TypeScript", "SupaBase", "Stripe", "Next.js"],
+    "image": "/projects/images/skatespotsDark.png",
+    "githubUrl": "https://github.com",
+    "liveUrl": "https://project-hrm-skate-spots-taupe.vercel.app/",
+    "category": "web",
+    "featured": true
+  },
+  {
+    "_id": "3",
+    "title": "Photography Portfolio",
+    "description": "Rhys Langdon Photography",
+    "technologies": ["Adobe Portfolio", "CSS"],
+    "image": "/projects/images/photogaphy.png",
+    "githubUrl": "https://github.com/rhyslangdon",
+    "liveUrl": "https://rhyslangdon.myportfolio.com/",
+    "category": "web",
+    "featured": true
+  }
+]
