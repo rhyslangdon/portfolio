@@ -52,8 +52,8 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: 'Something went wrong!' });
 });
 
-// 404 handler (catch-all for all HTTP methods and paths)
-app.all('*', (req, res) => {
+// 404 handler (catch-all for all HTTP methods and paths, compatible with latest Express)
+app.all(/.*/, (req, res) => {
   res.status(404).json({ message: 'Route not found' });
 });
 
