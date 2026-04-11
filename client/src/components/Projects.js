@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
@@ -21,12 +21,15 @@ const slideVariants = {
 };
 
 const Projects = () => {
+  const MOBILE_FADE_DURATION = 220;
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(1);
   const [isMobile, setIsMobile] = useState(() => window.matchMedia('(max-width: 768px)').matches);
+  const [isMobileFading, setIsMobileFading] = useState(false);
+  const mobileFadeTimeoutRef = useRef(null);
 
   const [ref, inView] = useInView({
     triggerOnce: true,
@@ -73,18 +76,56 @@ const Projects = () => {
     };
   }, []);
 
+  useEffect(() => {
+    return () => {
+      if (mobileFadeTimeoutRef.current) {
+        window.clearTimeout(mobileFadeTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  const runMobileFadeTransition = (getNextIndex, nextDirection) => {
+    if (isMobileFading || projects.length === 0) return;
+
+    setDirection(nextDirection);
+    setIsMobileFading(true);
+
+    mobileFadeTimeoutRef.current = window.setTimeout(() => {
+      setCurrentIndex((prevIndex) => getNextIndex(prevIndex));
+      window.requestAnimationFrame(() => {
+        setIsMobileFading(false);
+      });
+    }, MOBILE_FADE_DURATION);
+  };
+
   const goToPrevious = () => {
+    if (isMobile) {
+      runMobileFadeTransition((i) => (i === 0 ? projects.length - 1 : i - 1), -1);
+      return;
+    }
+
     setDirection(-1);
     setCurrentIndex((i) => (i === 0 ? projects.length - 1 : i - 1));
   };
 
   const goToNext = () => {
+    if (isMobile) {
+      runMobileFadeTransition((i) => (i === projects.length - 1 ? 0 : i + 1), 1);
+      return;
+    }
+
     setDirection(1);
     setCurrentIndex((i) => (i === projects.length - 1 ? 0 : i + 1));
   };
 
   const goToIndex = (index) => {
     if (index === currentIndex) return;
+
+    if (isMobile) {
+      runMobileFadeTransition(() => index, index > currentIndex ? 1 : -1);
+      return;
+    }
+
     setDirection(index > currentIndex ? 1 : -1);
     setCurrentIndex(index);
   };
@@ -120,7 +161,7 @@ const Projects = () => {
           {projects.length > 0 && (
             <div className="projects-carousel">
               {isMobile ? (
-                <div className="project-card">
+                <div className={`project-card mobile-project-card ${isMobileFading ? 'is-fading' : ''}`}>
                   <div className="project-image-container">
                     <img
                       src={projects[currentIndex].image}
