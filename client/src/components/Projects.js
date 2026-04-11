@@ -167,6 +167,8 @@ const Projects = () => {
                       src={projects[currentIndex].image}
                       alt={projects[currentIndex].title}
                       className="project-image"
+                      loading="lazy"
+                      decoding="async"
                     />
                     <div className="project-overlay">
                       {/* <div className="project-links">
@@ -229,6 +231,8 @@ const Projects = () => {
                         src={projects[currentIndex].image}
                         alt={projects[currentIndex].title}
                         className="project-image"
+                        loading="lazy"
+                        decoding="async"
                       />
                       <div className="project-overlay">
                         {/* <div className="project-links">

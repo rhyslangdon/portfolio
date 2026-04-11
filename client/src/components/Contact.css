@@ -53,6 +53,9 @@
   align-items: center;
   gap: 1rem;
   padding: 1rem;
+  width: 100%;
+  max-width: 420px;
+  margin: 0;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -74,6 +77,11 @@
   border-radius: 50%;
   color: #ffffff;
   font-size: 1.2rem;
+}
+
+.contact-details {
+  flex: 1;
+  text-align: center;
 }
 
 .contact-details h4 {

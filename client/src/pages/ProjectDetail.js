@@ -12,6 +12,10 @@ const ProjectDetail = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [id]);
+
+  useEffect(() => {
     const fetchProject = async () => {
       try {
         setLoading(true);
