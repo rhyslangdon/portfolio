@@ -137,6 +137,11 @@ code {
 
 /* Responsive design */
 @media (max-width: 768px) {
+  html,
+  body {
+    overflow-x: hidden;
+  }
+
   .section {
     padding: 60px 0;
   }

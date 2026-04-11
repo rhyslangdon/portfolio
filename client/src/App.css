@@ -88,12 +88,6 @@ nav.scrolled {
   margin-bottom: 1rem;
 }
 
-/* Contact form */
-.contact-form {
-  max-width: 600px;
-  margin: 0 auto;
-}
-
 .form-group {
   margin-bottom: 1.5rem;
   text-align: left;
@@ -134,7 +128,7 @@ nav.scrolled {
 @media (max-width: 768px) {
   .hero {
     align-items: flex-start;
-    padding-top: 110px;
+    padding-top: 88px;
     padding-bottom: 2rem;
   }
 
@@ -153,6 +147,6 @@ nav.scrolled {
 
 @media (max-width: 480px) {
   .hero {
-    padding-top: 100px;
+    padding-top: 80px;
   }
 }

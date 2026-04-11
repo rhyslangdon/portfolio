@@ -1,6 +1,8 @@
 .about {
   background: #231e19;
   color: #f1e7d8;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+
 }
 
 .section-title {
@@ -117,6 +119,7 @@
 @media (max-width: 768px) {
   .section-title {
     font-size: 2.5rem;
+    
   }
   
   .about-stats {
@@ -140,6 +143,7 @@
 @media (max-width: 480px) {
   .section-title {
     font-size: 2rem;
+    margin-top: 1rem;
   }
   
   .about-text p {

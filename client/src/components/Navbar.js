@@ -16,6 +16,18 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMobileMenuOpen]);
+
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -37,7 +49,7 @@ const Navbar = () => {
             <h3>Rhys Langdon - Web Portfolio</h3>
           </Link>
           
-          <div className={`nav-links ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
+          <div id="primary-navigation" className={`nav-links ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
             <button onClick={() => scrollToSection('home')} className="nav-link">
               Home
             </button>
@@ -52,9 +64,12 @@ const Navbar = () => {
             </button>
           </div>
 
-          <button 
-            className="mobile-menu-toggle"
+          <button
+            className={`mobile-menu-toggle ${isMobileMenuOpen ? 'open' : ''}`}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="primary-navigation"
+            aria-label={isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
           >
             <span></span>
             <span></span>
@@ -62,6 +77,14 @@ const Navbar = () => {
           </button>
         </div>
       </div>
+
+      {isMobileMenuOpen && (
+        <button
+          className="mobile-menu-backdrop"
+          onClick={() => setIsMobileMenuOpen(false)}
+          aria-label="Close navigation menu"
+        />
+      )}
     </motion.nav>
   );
 };

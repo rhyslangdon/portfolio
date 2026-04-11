@@ -127,7 +127,7 @@ const Contact = () => {
             Have a project in mind or just want to chat? I'd love to hear from you!
           </p>
           {!canUseEmailJS && (
-            <p className="contact-subtitle">
+            <p className="contact-subtitle contact-subtitle-mailto">
               This form opens your email app with a pre-filled message.
             </p>
           )}
