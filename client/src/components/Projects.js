@@ -20,18 +20,6 @@ const slideVariants = {
   })
 };
 
-const fadeVariants = {
-  enter: {
-    opacity: 0
-  },
-  center: {
-    opacity: 1
-  },
-  exit: {
-    opacity: 0
-  }
-};
-
 const Projects = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -131,19 +119,8 @@ const Projects = () => {
           
           {projects.length > 0 && (
             <div className="projects-carousel">
-              <AnimatePresence initial={false} custom={direction} mode="wait">
-                <motion.div
-                  key={projects[currentIndex]._id}
-                  className="project-card"
-                  custom={direction}
-                  variants={isMobile ? fadeVariants : slideVariants}
-                  initial="enter"
-                  animate="center"
-                  exit="exit"
-                  transition={isMobile
-                    ? { opacity: { duration: 0.35, ease: 'linear' } }
-                    : { duration: 0.25, ease: 'easeOut' }}
-                >
+              {isMobile ? (
+                <div className="project-card">
                   <div className="project-image-container">
                     <img
                       src={projects[currentIndex].image}
@@ -193,8 +170,71 @@ const Projects = () => {
                       View Details
                     </Link>
                   </div>
-                </motion.div>
-              </AnimatePresence>
+                </div>
+              ) : (
+                <AnimatePresence initial={false} custom={direction} mode="wait">
+                  <motion.div
+                    key={projects[currentIndex]._id}
+                    className="project-card"
+                    custom={direction}
+                    variants={slideVariants}
+                    initial="enter"
+                    animate="center"
+                    exit="exit"
+                    transition={{ duration: 0.25, ease: 'easeOut' }}
+                  >
+                    <div className="project-image-container">
+                      <img
+                        src={projects[currentIndex].image}
+                        alt={projects[currentIndex].title}
+                        className="project-image"
+                      />
+                      <div className="project-overlay">
+                        {/* <div className="project-links">
+                          <a
+                            href={projects[currentIndex].githubUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="project-link"
+                          >
+                            <FaGithub />
+                          </a>
+                          {projects[currentIndex].liveUrl && (
+                            <a
+                              href={projects[currentIndex].liveUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="project-link"
+                            >
+                              <FaExternalLinkAlt />
+                            </a>
+                          )}
+                        </div> */}
+                      </div>
+                    </div>
+
+                    <div className="project-content">
+                      <h3 className="project-title">{projects[currentIndex].title}</h3>
+                      <p className="project-description">{projects[currentIndex].description}</p>
+
+                      <div className="project-technologies">
+                        {projects[currentIndex].technologies.map((tech, techIndex) => (
+                          <span key={techIndex} className="tech-tag">
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+
+                      <Link
+                        to={`/project/${projects[currentIndex]._id}`}
+                        className="btn btn-secondary project-btn"
+                      >
+                        View Details
+                      </Link>
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
+              )}
 
               <button
                 type="button"
