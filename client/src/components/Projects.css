@@ -214,6 +214,15 @@
 
   }
 
+  .project-description,
+  .project-technologies {
+    display: none;
+  }
+
+  .project-title {
+    margin-bottom: 1rem;
+  }
+
   .projects-carousel {
     padding: 0 0 2.5rem;
   }

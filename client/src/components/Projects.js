@@ -20,12 +20,25 @@ const slideVariants = {
   })
 };
 
+const fadeVariants = {
+  enter: {
+    opacity: 0
+  },
+  center: {
+    opacity: 1
+  },
+  exit: {
+    opacity: 0
+  }
+};
+
 const Projects = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(1);
+  const [isMobile, setIsMobile] = useState(() => window.matchMedia('(max-width: 768px)').matches);
 
   const [ref, inView] = useInView({
     triggerOnce: true,
@@ -56,6 +69,21 @@ const Projects = () => {
       setCurrentIndex(0);
     }
   }, [projects, currentIndex]);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 768px)');
+
+    const handleMediaChange = (event) => {
+      setIsMobile(event.matches);
+    };
+
+    setIsMobile(mediaQuery.matches);
+    mediaQuery.addEventListener('change', handleMediaChange);
+
+    return () => {
+      mediaQuery.removeEventListener('change', handleMediaChange);
+    };
+  }, []);
 
   const goToPrevious = () => {
     setDirection(-1);
@@ -108,11 +136,13 @@ const Projects = () => {
                   key={projects[currentIndex]._id}
                   className="project-card"
                   custom={direction}
-                  variants={slideVariants}
+                  variants={isMobile ? fadeVariants : slideVariants}
                   initial="enter"
                   animate="center"
                   exit="exit"
-                  transition={{ duration: 0.25, ease: 'easeOut' }}
+                  transition={isMobile
+                    ? { opacity: { duration: 0.35, ease: 'linear' } }
+                    : { duration: 0.25, ease: 'easeOut' }}
                 >
                   <div className="project-image-container">
                     <img
