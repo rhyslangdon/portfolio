@@ -38,7 +38,7 @@
 
 .project-header {
   display: grid;
-  margin-bottom: 3rem;
+  margin-bottom: 2.1rem;
 }
 
 .back-button {
@@ -74,7 +74,7 @@
   font-size: 3rem;
   font-weight: 700;
   color: #f2f4f8;
-  margin-bottom: 1rem;
+  margin-bottom: 0.35rem;
   line-height: 1.2;
 }
 
@@ -190,12 +190,31 @@
 
 /* Responsive design */
 @media (max-width: 768px) {
+  .project-detail-container {
+    padding-top: 82px;
+  }
+
   .project-detail {
     padding: 1rem;
+  }
+
+  .project-header {
+    margin-bottom: 0.9rem;
+  }
+
+  .back-button {
+    margin-bottom: 0.55rem;
+    justify-self: start;
+    align-self: start;
+  }
+
+  .project-title-section {
+    margin: 0;
   }
   
   .project-title {
     font-size: 2.2rem;
+    margin-bottom: 0.2rem;
   }
   
   .project-subtitle {
@@ -217,7 +236,23 @@
 }
 
 @media (max-width: 480px) {
+  .project-detail-container {
+    padding-top: 76px;
+  }
+
+  .project-header {
+    margin-bottom: 0.65rem;
+  }
+
+  .back-button {
+    margin-bottom: 1rem;
+  }
+
   .project-title {
     font-size: 1.8rem;
+    margin-bottom: 0;
+  }
+  .project-image-section {
+    margin-bottom: 0.5rem;
   }
 }
