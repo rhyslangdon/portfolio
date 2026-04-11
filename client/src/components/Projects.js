@@ -22,6 +22,7 @@ const slideVariants = {
 
 const Projects = () => {
   const MOBILE_FADE_DURATION = 220;
+  const MOBILE_SWIPE_THRESHOLD = 50;
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -30,6 +31,8 @@ const Projects = () => {
   const [isMobile, setIsMobile] = useState(() => window.matchMedia('(max-width: 768px)').matches);
   const [isMobileFading, setIsMobileFading] = useState(false);
   const mobileFadeTimeoutRef = useRef(null);
+  const touchStartXRef = useRef(0);
+  const touchStartYRef = useRef(0);
 
   const [ref, inView] = useInView({
     triggerOnce: true,
@@ -130,6 +133,33 @@ const Projects = () => {
     setCurrentIndex(index);
   };
 
+  const handleTouchStart = (event) => {
+    const touch = event.touches[0];
+    if (!touch) return;
+
+    touchStartXRef.current = touch.clientX;
+    touchStartYRef.current = touch.clientY;
+  };
+
+  const handleTouchEnd = (event) => {
+    const touch = event.changedTouches[0];
+    if (!touch || !isMobile) return;
+
+    const deltaX = touch.clientX - touchStartXRef.current;
+    const deltaY = touch.clientY - touchStartYRef.current;
+    const absX = Math.abs(deltaX);
+    const absY = Math.abs(deltaY);
+
+    // Only trigger for intentional horizontal swipes, not vertical scrolling.
+    if (absX < MOBILE_SWIPE_THRESHOLD || absX <= absY) return;
+
+    if (deltaX < 0) {
+      goToNext();
+    } else {
+      goToPrevious();
+    }
+  };
+
   if (loading) {
     return (
       <section id="projects" className="projects section">
@@ -161,7 +191,11 @@ const Projects = () => {
           {projects.length > 0 && (
             <div className="projects-carousel">
               {isMobile ? (
-                <div className={`project-card mobile-project-card ${isMobileFading ? 'is-fading' : ''}`}>
+                <div
+                  className={`project-card mobile-project-card ${isMobileFading ? 'is-fading' : ''}`}
+                  onTouchStart={handleTouchStart}
+                  onTouchEnd={handleTouchEnd}
+                >
                   <div className="project-image-container">
                     <img
                       src={projects[currentIndex].image}

@@ -225,6 +225,7 @@
   .mobile-project-card {
     opacity: 1;
     transition: opacity 220ms linear;
+    touch-action: pan-y;
   }
 
   .mobile-project-card.is-fading {
