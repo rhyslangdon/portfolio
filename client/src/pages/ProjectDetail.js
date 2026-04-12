@@ -157,14 +157,16 @@ const ProjectDetail = () => {
             transition={{ duration: 0.6, delay: 0.6 }}
           >
             <div className="project-actions">
-              <a 
-                href={project.githubUrl} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="btn btn-secondary action-btn"
-              >
-                <FaGithub /> View Source
-              </a>
+              {project.githubUrl && (
+                <a 
+                  href={project.githubUrl} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="btn btn-secondary action-btn"
+                >
+                  <FaGithub /> View Source
+                </a>
+              )}
               {project.liveUrl && (
                 <a 
                   href={project.liveUrl} 

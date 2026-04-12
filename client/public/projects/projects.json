@@ -3,7 +3,7 @@
   {
     "_id": "1",
     "title": "Fresh Potatoes",
-    "description": "My take on 'Rotten Tomatoes' using a C# backend, React/Typescript frontend, and a full MVC app for admin use",
+    "description": "My take on 'Rotten Tomatoes' using a C# backend, React/Typescript frontend, and a full MVC app for admin use. Live demo coming soon.",
     "technologies": ["React", "TypeScript", "C#", ".Net"],
     "image": "/projects/images/freshPotatoes.jpg",
     "githubUrl": "https://github.com/rhyslangdon",
@@ -13,7 +13,7 @@
    {
     "_id": "2",
     "title": "HRM Skate Spots",
-    "description": "Web application for skateboarders to find and share skate spots around HRM",
+    "description": "Web application for skateboarders to find and share skate spots around HRM. This project was written by Zachary Boutilier, Braden Sampson, and myself. The project uses stripe for a premium subscription which allows users to access the Gemini Flash 2.0 feature",
     "technologies": ["React", "TypeScript", "SupaBase", "Stripe", "Next.js"],
     "image": "/projects/images/skatespotsDark.jpg",
     "githubUrl": "https://github.com",
@@ -24,10 +24,9 @@
   {
     "_id": "3",
     "title": "Photography Portfolio",
-    "description": "Rhys Langdon Photography",
+    "description": "Rhys Langdon Photography portfolio. This site was created using Adobe Portfolio and custom CMS. The portfolio is designed to present photography examples, contact options, and pricing for Rhys Langdon Photography.",
     "technologies": ["Adobe Portfolio", "CSS"],
     "image": "/projects/images/photogaphy.jpg",
-    "githubUrl": "https://github.com/rhyslangdon",
     "liveUrl": "https://rhyslangdon.myportfolio.com/",
     "category": "web",
     "featured": true

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { FaChevronLeft, FaChevronRight, FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
 import './Projects.css';
 
 const slideVariants = {
@@ -205,15 +205,17 @@ const Projects = () => {
                       decoding="async"
                     />
                     <div className="project-overlay">
-                      {/* <div className="project-links">
-                        <a
-                          href={projects[currentIndex].githubUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="project-link"
-                        >
-                          <FaGithub />
-                        </a>
+                      <div className="project-links">
+                        {projects[currentIndex].githubUrl && (
+                          <a
+                            href={projects[currentIndex].githubUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="project-link"
+                          >
+                            <FaGithub />
+                          </a>
+                        )}
                         {projects[currentIndex].liveUrl && (
                           <a
                             href={projects[currentIndex].liveUrl}
@@ -224,7 +226,7 @@ const Projects = () => {
                             <FaExternalLinkAlt />
                           </a>
                         )}
-                      </div> */}
+                      </div>
                     </div>
                   </div>
 
